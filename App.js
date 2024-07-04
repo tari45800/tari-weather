@@ -11,9 +11,20 @@ import {
   Vibration,
   View,
 } from "react-native";
+import { Fontisto } from "@expo/vector-icons";
 
 const { width: SCREEN_SIZE } = Dimensions.get("window");
 const API_KEY = "7d7cc6512e9a3f109a97243f9f771a2b";
+
+const Icons = {
+  Clear: "day-sunny",
+  Clouds: "cloudy",
+  Rain: "rain",
+  Atmosphere: "cloudy-gusts",
+  Snow: "snow",
+  Drizzle: "day-rain",
+  Thunderstorm: "lightning",
+};
 
 export default function App() {
   const [city, setCity] = useState("Loading...");
@@ -72,9 +83,23 @@ export default function App() {
           days.map((day, index) => {
             return (
               <View key={index} style={styles.day}>
-                <Text style={styles.temp}>
-                  {parseFloat(day.main.temp).toFixed(1)}
-                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Text style={styles.temp}>
+                    {parseFloat(day.main.temp).toFixed(1)}
+                  </Text>
+                  <Fontisto
+                    name={Icons[day.weather[0].main]}
+                    size={68}
+                    color="white"
+                  ></Fontisto>
+                </View>
+
                 <Text style={styles.description}>{day.weather[0].main} </Text>
                 <Text style={styles.tinyText}>
                   {day.weather[0].description}
@@ -107,7 +132,7 @@ const styles = StyleSheet.create({
 
   cityName: {
     color: "white",
-    fontSize: 68,
+    fontSize: 48,
     fontWeight: "500",
   },
 
@@ -116,18 +141,17 @@ const styles = StyleSheet.create({
   day: {
     width: SCREEN_SIZE,
     marginTop: 50,
-    alignItems: "center",
+    padding: 20,
   },
 
   temp: {
     color: "white",
-    fontSize: "158",
+    fontSize: 68,
   },
 
   description: {
-    marginTop: -20,
     color: "white",
-    fontSize: 50,
+    fontSize: 20,
   },
 
   tinyText: {
